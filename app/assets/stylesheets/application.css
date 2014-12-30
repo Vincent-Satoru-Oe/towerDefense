@@ -13,3 +13,24 @@
  *= require_tree .
  *= require_self
  */
+
+.viewport {
+	position: relative;
+    height: 560px;
+    width: 800px;
+    border: 1px solid black;
+    display: none;
+    margin-left: auto;
+    margin-right: auto;
+}
+.row {
+    display: block;
+}
+.game-space {
+	position: relative;
+    border: 1px dotted gray;
+    width: 38px;
+    height: 38px;
+    display: block;
+    float: left;
+}

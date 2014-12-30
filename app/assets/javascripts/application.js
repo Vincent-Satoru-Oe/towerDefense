@@ -14,3 +14,32 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require_tree .
+
+function render() {
+  $('.viewport').css('display', 'block');
+  var html = "";
+  for(var i=0; i<14; i++) {
+    html += "<div class='row'>";
+    for(var j=0; j<20; j++) {
+      	html += "<div class='game-space' id="+i+"-"+j+"></div>";
+    }
+    html += "</div>";
+  }
+  $('.viewport').html(html);
+
+  var newBullet = $(document.createElement("div"));
+  newBullet.css("background-image", "url(python.png)");
+  newBullet.css("position", "absolute");
+  newBullet.css("height", "40px");
+  newBullet.css("width", "40px");
+  newBullet.css("top", "0px");
+  newBullet.css("left", "0px")
+
+  $('.viewport').append(newBullet);
+}
+
+
+
+function startGame() {
+  render();
+}
