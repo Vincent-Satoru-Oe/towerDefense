@@ -15,31 +15,63 @@
 //= require turbolinks
 //= require_tree .
 
+viewHeight = 560;
+viewWidth = 800;
+
+rows = 14;
+columns = 20;
+
+gridSpaceWidth = 40;
+gridSpaceHeight = 40;
+
+waypoints = ["1-1", "3-2", "13-10", "9-3"]
+wayPointArr = [];
+
 function render() {
-  $('.viewport').css('display', 'block');
-  var html = "";
-  for(var i=0; i<14; i++) {
-    html += "<div class='row'>";
-    for(var j=0; j<20; j++) {
-      	html += "<div class='game-space' id="+i+"-"+j+"></div>";
-    }
-    html += "</div>";
-  }
-  $('.viewport').html(html);
+	$('.viewport').css('display', 'block');
+	var html = "";
+	for(var i=0; i<rows; i++) {
+		html += "<div class='row'>";
+		for(var j=0; j<columns; j++) {
+	  		html += "<div class='game-space' id="+i+"-"+j+" onclick=showMenu(0)></div>";
+		}
+		html += "</div>";
+	}
+	$('.viewport').html(html);
 
-  var newBullet = $(document.createElement("div"));
-  newBullet.css("background-image", "url(python.png)");
-  newBullet.css("position", "absolute");
-  newBullet.css("height", "40px");
-  newBullet.css("width", "40px");
-  newBullet.css("top", "0px");
-  newBullet.css("left", "0px")
+	menu = $('.menu-modal');
 
-  $('.viewport').append(newBullet);
+  	//set up the waypoints at the given coordinates
+  	for (i = 0; i < waypoints.length; i++) {
+  		waypoint = new Waypoint(waypoints[i]);
+  		wayPointArr.push(waypoint);
+  	} 
 }
 
+function rowCoordinate(row) {
+	if (row < rows) {
+		return row * 40;
+	}
+}
 
+function columnCoordinate(column) {
+	if (column < columns) {
+		return column * 40;
+	}
+}
+
+function pixilize(value) {
+	return value + "px";
+}
 
 function startGame() {
   render();
+}
+
+function showMenu(type) {
+	menu.css("display", "block");
+}
+
+function hideMenu() {
+	menu.css("display", "none");
 }
