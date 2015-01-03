@@ -52,8 +52,98 @@ function createSquare() {
   alert("This worked");
 }
 
+viewHeight = 560;
+viewWidth = 800;
 
+rows = 14;
+columns = 20;
 
+gridspaceWidth = 40;
+gridspaceHeight = 40;
+
+waypointList = ["0-10", "1-10", "2-10", "3-10", 
+"4-10", "5-10", "6-10", "7-10", "8-10", "9-10", 
+"10-10", "10-9", "10-8", "10-7", "10-6", "10-5",
+"10-4", "10-3", "10-2", "10-1", "10-0"];
+waypoints = [];
+
+// function called to start the game
 function startGame() {
-  render();
+  Game.render();
 }
+
+//--------------------------------GAME------------------------------------------
+
+var Game = {
+	interval : 5,
+}
+
+Game.render = function() {
+	// construct the grid
+	$('.viewport').css('display', 'block');
+	var html = "";
+	for(var i=0; i<rows; i++) {
+		html += "<div class='row'>";
+		for(var j=0; j<columns; j++) {
+	  		html += "<div class='game-space' id="+i+"-"+j+" onclick=Menu.show(0)></div>";
+		}
+		html += "</div>";
+	}
+	$('.viewport').html(html);
+
+	for(var i=0; i<rows; i++) {
+		row = [];
+		for(var j=0; j<columns; j++) {
+			gridspace = new Gridspace(i, j);
+			row.push(gridspace)
+		}
+		Grid.grid.push(row);
+	}
+
+	// set the menu element to the correct DOM element
+	Menu.element = $('.menu-modal');
+
+	//Set the waypoint gridspots according to waypointList
+	for (i = 0; i < waypointList.length; i++) {
+		gs = Grid.getGridspaceFromCoordinate(waypointList[i]);
+		waypoint = new Waypoint(gs);
+		waypoints.push(waypoint);
+	}
+	i = 0;
+	while (i < waypoints.length-1) {
+		waypoints[i].setNext(waypoints[i+1]);
+		i++;
+	}
+	waypoints[i].setNext(null);
+
+	// run the game loop
+	Game.runLoop();
+
+	enemy = new Enemy("0-10");
+}
+
+Game.runLoop = function() {
+	Game.gameLoop = window.setInterval(
+		function() {
+			Game.update()
+		}, 
+		Game.interval
+	);
+}
+
+Game.update = function() {
+	approach(enemy, 0);
+}
+
+//--------------------------------------------HELPERS--------------------------------
+
+function pixilize(value) {
+	return value + "px";
+}
+
+function approach(source, target) {
+	ydiff = source.position.top - target.position.top;
+	xdiff = source.position.left - target.position.left;
+	source.move(1,1);
+}
+

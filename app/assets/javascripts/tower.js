@@ -1,0 +1,4 @@
+
+var Tower = function(position) {
+
+}
