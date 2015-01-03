@@ -21,57 +21,92 @@ viewWidth = 800;
 rows = 14;
 columns = 20;
 
-gridSpaceWidth = 40;
-gridSpaceHeight = 40;
+gridspaceWidth = 40;
+gridspaceHeight = 40;
 
-waypoints = ["1-1", "3-2", "13-10", "9-3"]
-wayPointArr = [];
+waypointList = ["0-10", "1-10", "2-10", "3-10", 
+"4-10", "5-10", "6-10", "7-10", "8-10", "9-10", 
+"10-10", "10-9", "10-8", "10-7", "10-6", "10-5",
+"10-4", "10-3", "10-2", "10-1", "10-0"];
+waypoints = [];
 
-function render() {
+// function called to start the game
+function startGame() {
+  Game.render();
+}
+
+//--------------------------------GAME------------------------------------------
+
+var Game = {
+	interval : 5,
+}
+
+Game.render = function() {
+	// construct the grid
 	$('.viewport').css('display', 'block');
 	var html = "";
 	for(var i=0; i<rows; i++) {
 		html += "<div class='row'>";
 		for(var j=0; j<columns; j++) {
-	  		html += "<div class='game-space' id="+i+"-"+j+" onclick=showMenu(0)></div>";
+	  		html += "<div class='game-space' id="+i+"-"+j+" onclick=Menu.show(0)></div>";
 		}
 		html += "</div>";
 	}
 	$('.viewport').html(html);
 
-	menu = $('.menu-modal');
-
-  	//set up the waypoints at the given coordinates
-  	for (i = 0; i < waypoints.length; i++) {
-  		waypoint = new Waypoint(waypoints[i]);
-  		wayPointArr.push(waypoint);
-  	} 
-}
-
-function rowCoordinate(row) {
-	if (row < rows) {
-		return row * 40;
+	for(var i=0; i<rows; i++) {
+		row = [];
+		for(var j=0; j<columns; j++) {
+			gridspace = new Gridspace(i, j);
+			row.push(gridspace)
+		}
+		Grid.grid.push(row);
 	}
+
+	// set the menu element to the correct DOM element
+	Menu.element = $('.menu-modal');
+
+	//Set the waypoint gridspots according to waypointList
+	for (i = 0; i < waypointList.length; i++) {
+		gs = Grid.getGridspaceFromCoordinate(waypointList[i]);
+		waypoint = new Waypoint(gs);
+		waypoints.push(waypoint);
+	}
+	i = 0;
+	while (i < waypoints.length-1) {
+		waypoints[i].setNext(waypoints[i+1]);
+		i++;
+	}
+	waypoints[i].setNext(null);
+
+	// run the game loop
+	Game.runLoop();
+
+	enemy = new Enemy("0-10");
 }
 
-function columnCoordinate(column) {
-	if (column < columns) {
-		return column * 40;
-	}
+Game.runLoop = function() {
+	Game.gameLoop = window.setInterval(
+		function() {
+			Game.update()
+		}, 
+		Game.interval
+	);
 }
+
+Game.update = function() {
+	approach(enemy, 0);
+}
+
+//--------------------------------------------HELPERS--------------------------------
 
 function pixilize(value) {
 	return value + "px";
 }
 
-function startGame() {
-  render();
+function approach(source, target) {
+	ydiff = source.position.top - target.position.top;
+	xdiff = source.position.left - target.position.left;
+	source.move(1,1);
 }
 
-function showMenu(type) {
-	menu.css("display", "block");
-}
-
-function hideMenu() {
-	menu.css("display", "none");
-}

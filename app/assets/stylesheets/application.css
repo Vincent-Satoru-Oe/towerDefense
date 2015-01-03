@@ -26,6 +26,7 @@
 .row {
     display: block;
 }
+
 .game-space {
 	position: relative;
     border: 1px dotted gray;
@@ -33,6 +34,12 @@
     height: 38px;
     display: block;
     float: left;
+}
+
+.game-space img {
+	margin: 1px;
+	height: 36px;
+	width: 36px;
 }
 
 .game-space:hover {
@@ -49,7 +56,6 @@
 .overlay {
 	height: 100vh;
 	width: 100vw;
-	background-color: grey;
 	opacity: .5;
 }
 
@@ -62,4 +68,12 @@
 	background-color: white;
 	border: 1px black solid;
 	z-index: 2;
+}
+
+#selection-menu {
+
+}
+
+#upgrade-menu {
+	
 }

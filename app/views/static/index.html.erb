@@ -1,9 +1,13 @@
 <div class="viewport"></div>
 <div class="menu-modal">
-	<div class="overlay" onclick="hideMenu()">
+	<div class="overlay" onclick="Menu.hide()">
 	</div>
 	<div class="menu">
-		<h1>menu</h1>
+		<div id="selection-menu">
+			<h1>menu</h1>
+			<button type="button" onclick="Menu.addTower('basic')">add</button>
+		</div>
+		<div id="upgrade-menu">
 	</div>
 </div>
 
