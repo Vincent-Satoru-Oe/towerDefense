@@ -35,7 +35,21 @@ function render() {
   newBullet.css("top", "0px");
   newBullet.css("left", "0px")
 
-  $('.viewport').append(newBullet);
+  //$('.viewport').append(newBullet);
+  createSquare();
+}
+
+function createSquare() {
+  var aShape = $(document.createElement("div"));
+  aShape.css("background-image", "url(Square.png)");
+  aShape.css("position", "absolute");
+  aShape.css("height", "90px");
+  aShape.css("width", "90px");
+  aShape.css("top", "15px");
+  aShape.css("left", "15px")
+
+  $('.viewport').append(aShape);
+  alert("This worked");
 }
 
 
