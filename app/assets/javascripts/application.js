@@ -15,43 +15,6 @@
 //= require turbolinks
 //= require_tree .
 
-function render() {
-  $('.viewport').css('display', 'block');
-  var html = "";
-  for(var i=0; i<14; i++) {
-    html += "<div class='row'>";
-    for(var j=0; j<20; j++) {
-      	html += "<div class='game-space' id="+i+"-"+j+"></div>";
-    }
-    html += "</div>";
-  }
-  $('.viewport').html(html);
-
-  var newBullet = $(document.createElement("div"));
-  newBullet.css("background-image", "url(python.png)");
-  newBullet.css("position", "absolute");
-  newBullet.css("height", "40px");
-  newBullet.css("width", "40px");
-  newBullet.css("top", "0px");
-  newBullet.css("left", "0px")
-
-  //$('.viewport').append(newBullet);
-  createSquare();
-}
-
-function createSquare() {
-  var aShape = $(document.createElement("div"));
-  aShape.css("background-image", "url(Square.png)");
-  aShape.css("position", "absolute");
-  aShape.css("height", "90px");
-  aShape.css("width", "90px");
-  aShape.css("top", "15px");
-  aShape.css("left", "15px")
-
-  $('.viewport').append(aShape);
-  alert("This worked");
-}
-
 viewHeight = 560;
 viewWidth = 800;
 
@@ -132,7 +95,7 @@ Game.runLoop = function() {
 }
 
 Game.update = function() {
-	approach(enemy, 0);
+	approach(enemy, waypoints[12]);
 }
 
 //--------------------------------------------HELPERS--------------------------------
@@ -142,8 +105,14 @@ function pixilize(value) {
 }
 
 function approach(source, target) {
-	ydiff = source.position.top - target.position.top;
-	xdiff = source.position.left - target.position.left;
-	source.move(1,1);
+	ydiff = target.position.top - source.position.top;
+	xdiff = target.position.left - source.position.left;
+
+	magnitude = Math.sqrt(Math.pow(ydiff, 2) + Math.pow(xdiff, 2));
+
+	unitX = xdiff / magnitude;
+	unitY = ydiff / magnitude;
+
+	source.move(unitX, unitY);
 }
 

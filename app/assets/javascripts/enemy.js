@@ -1,14 +1,13 @@
 
 var Enemy = function(coordinate) {
 
-	this.speed = 5;
+	this.speed = 10;
 	this.health = 10;
 	this.power = 1;
 	this.position = {
 		top : pxTopCoordinate(parseRow(coordinate)),
 		left : pxLeftCoordinate(parseColumn(coordinate))
 	}
-
 	var enemy = $(document.createElement("div"));
 	enemy.css("background-image", "url(python.png)");
 	enemy.css("position", "absolute");
@@ -20,16 +19,15 @@ var Enemy = function(coordinate) {
 	this.element = enemy;
 
 	$('.viewport').append(enemy);
-
 }
 
 Enemy.prototype.move = function(x, y) {
-	var newTop = parseInt(this.element.css("top")) + x;
+	var newTop = parseFloat(this.element.css("top")) + y;
 	this.element.css("top", pixilize(newTop));
-	var newLeft = parseInt(this.element.css("left")) + y;
+	var newLeft = parseFloat(this.element.css("left")) + x;
 	this.element.css("left", pixilize(newLeft));
 }
 
-Enemy.prototype.setTarget(newTarget) {
+Enemy.prototype.setTarget = function(newTarget) {
 	
 }

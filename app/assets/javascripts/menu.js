@@ -16,7 +16,6 @@ Menu.addTower = function(type) {
 		case 'basic':
 		tower.attr("src", "basicTower.png");
 	}
-	
 
 
 	$("#" + Menu.currentTargetId).append(tower);
