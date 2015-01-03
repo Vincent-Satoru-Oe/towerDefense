@@ -4,7 +4,7 @@ var Enemy = function(coordinateString) {
 
 	Entity.call(this, coordinateString);
 
-	this.speed = 5;
+	this.speed = 10;
 	this.health = 10;
 	this.power = 1;
 
@@ -19,8 +19,8 @@ var Enemy = function(coordinateString) {
 	this.element = enemy;
 
 	$('.viewport').append(enemy);
-
 }
 
 Enemy.prototype = Object.create(Entity.prototype);
 Enemy.prototype.constructor = Enemy;
+

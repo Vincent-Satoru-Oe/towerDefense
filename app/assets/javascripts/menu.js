@@ -14,7 +14,6 @@ Menu.addTower = function(type) {
 		case 'basic':
 		var newTower = new Tower(Menu.currentTargetId);
 	}
-	// $("#" + Menu.currentTargetId).append(tower);
 }
 
 Menu.hide = function() {

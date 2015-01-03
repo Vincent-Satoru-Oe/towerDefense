@@ -95,7 +95,7 @@ Game.runLoop = function() {
 }
 
 Game.update = function() {
-	approach(enemy, Grid.waypoints[5]);
+	approach(enemy, Grid.waypoints[11]);
 }
 
 //--------------------------------------------HELPERS--------------------------------
@@ -105,8 +105,15 @@ function pixilize(value) {
 }
 
 function approach(source, target) {
-	// ydiff = source.position.top - target.position.top;
-	// xdiff = source.position.left - target.position.left;
-	source.move(1,1);
+
+	ydiff = target.position.top - source.position.top;
+	xdiff = target.position.left - source.position.left;
+
+	magnitude = Math.sqrt(Math.pow(ydiff, 2) + Math.pow(xdiff, 2));
+
+	unitX = xdiff / magnitude;
+	unitY = ydiff / magnitude;
+
+	source.move(unitX, unitY);
 }
 
