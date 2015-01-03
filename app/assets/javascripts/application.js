@@ -28,7 +28,6 @@ waypointList = ["0-10", "1-10", "2-10", "3-10",
 "4-10", "5-10", "6-10", "7-10", "8-10", "9-10", 
 "10-10", "10-9", "10-8", "10-7", "10-6", "10-5",
 "10-4", "10-3", "10-2", "10-1", "10-0"];
-waypoints = [];
 
 // function called to start the game
 function startGame() {
@@ -42,6 +41,7 @@ var Game = {
 }
 
 Game.render = function() {
+
 	// construct the grid
 	$('.viewport').css('display', 'block');
 	var html = "";
@@ -68,16 +68,16 @@ Game.render = function() {
 
 	//Set the waypoint gridspots according to waypointList
 	for (i = 0; i < waypointList.length; i++) {
-		gs = Grid.getGridspaceFromCoordinate(waypointList[i]);
+		gs = Grid.getGridspaceFromCoordinateString(waypointList[i]);
 		waypoint = new Waypoint(gs);
-		waypoints.push(waypoint);
+		Grid.waypoints.push(waypoint);
 	}
 	i = 0;
-	while (i < waypoints.length-1) {
-		waypoints[i].setNext(waypoints[i+1]);
+	while (i < Grid.waypoints.length-1) {
+		Grid.waypoints[i].setNext(Grid.waypoints[i+1]);
 		i++;
 	}
-	waypoints[i].setNext(null);
+	Grid.waypoints[i].setNext(null);
 
 	// run the game loop
 	Game.runLoop();
@@ -95,7 +95,7 @@ Game.runLoop = function() {
 }
 
 Game.update = function() {
-	approach(enemy, 0);
+	approach(enemy, Grid.waypoints[5]);
 }
 
 //--------------------------------------------HELPERS--------------------------------
@@ -105,8 +105,8 @@ function pixilize(value) {
 }
 
 function approach(source, target) {
-	ydiff = source.position.top - target.position.top;
-	xdiff = source.position.left - target.position.left;
+	// ydiff = source.position.top - target.position.top;
+	// xdiff = source.position.left - target.position.left;
 	source.move(1,1);
 }
 

@@ -10,16 +10,11 @@ Menu.show = function(type) {
 
 Menu.addTower = function(type) {
 
-	var tower = $(document.createElement("img"));
-
 	switch(type) {
 		case 'basic':
-		tower.attr("src", "basicTower.png");
+		var newTower = new Tower(Menu.currentTargetId);
 	}
-	
-
-
-	$("#" + Menu.currentTargetId).append(tower);
+	// $("#" + Menu.currentTargetId).append(tower);
 }
 
 Menu.hide = function() {

@@ -2,10 +2,11 @@
 var Grid = {
 	element : null,
 	grid : [],
+	waypoints : []
 }
 
-Grid.getGridspaceFromCoordinate = function(coordinate) {
-	return Grid.grid[parseRow(coordinate)][parseColumn(coordinate)];
+Grid.getGridspaceFromCoordinateString = function(coordinateString) {
+	return Grid.grid[parseRow(coordinateString)][parseColumn(coordinateString)];
 }
 
 Grid.getGridspaceFromRowColumn = function(row, column) {
@@ -32,6 +33,7 @@ var Gridspace = function(row, col) {
 		left : this.left + gridspaceWidth/2
 	}
 	this.isWaypoint = false;
+	this.tower = null
 }
 
 Gridspace.prototype.setWaypoint = function() {
