@@ -4,12 +4,16 @@ var Enemy = function(coordinateString) {
 
 	Entity.call(this, coordinateString);
 
-	this.speed = 10;
+	this.speed = 1;
 	this.health = 10;
 	this.power = 1;
 
+	var enemyImage = $(document.createElement("img"));
+	enemyImage.attr("src", "python.png");
+
 	var enemy = $(document.createElement("div"));
-	enemy.css("background-image", "url(python.png)");
+	enemy.addClass("enemy");
+	enemy.append(enemyImage);
 	enemy.css("position", "absolute");
 	enemy.css("height", gridspaceHeight);
 	enemy.css("width", gridspaceWidth);
@@ -18,7 +22,7 @@ var Enemy = function(coordinateString) {
 
 	this.element = enemy;
 
-	$('.viewport').append(enemy);
+	$('.grid').append(enemy);
 }
 
 Enemy.prototype = Object.create(Entity.prototype);

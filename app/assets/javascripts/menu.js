@@ -12,7 +12,7 @@ Menu.addTower = function(type) {
 
 	switch(type) {
 		case 'basic':
-		var newTower = new Tower(Menu.currentTargetId);
+			var newTower = new Tower(Menu.currentTargetId);
 	}
 }
 

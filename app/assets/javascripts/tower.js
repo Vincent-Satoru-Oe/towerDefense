@@ -7,6 +7,7 @@ var Tower = function(coordinateString) {
 	towerImage.attr("src", "basicTower.png");
 
 	var tower = $(document.createElement("div"));
+	tower.addClass("tower");
 	tower.append(towerImage);
 	tower.css("position", "relative");
 	tower.css("height", gridspaceHeight);

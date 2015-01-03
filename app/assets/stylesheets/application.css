@@ -13,15 +13,29 @@
  *= require_tree .
  *= require_self
  */
+.viewframe {
+	position: relative;
+	top: 40px;
+	height: 480px;
+	width: 800px;
+	margin-left: auto;
+	margin-right: auto;
+	border: 1px black solid;
+	overflow: hidden;
+	z-index: 2;
+}
 
-.viewport {
+.grid {
 	position: relative;
     height: 560px;
-    width: 800px;
-    border: 1px solid black;
+    width: 880px;
+    top: -40px;
+    left: -40px;
     margin-left: auto;
     margin-right: auto;
+    z-index: 0;
 }
+
 .row {
     display: block;
 }
@@ -43,6 +57,14 @@
 
 .game-space:hover {
 	background-color: lightgrey;
+}
+
+.spawn-space {
+	position: relative;
+	width: 40px;
+	height: 40px;
+	display: block;
+	float: left;
 }
 
 .menu-modal {
@@ -67,6 +89,15 @@
 	background-color: white;
 	border: 1px black solid;
 	z-index: 2;
+}
+
+.enemy {
+
+}
+
+.enemy img {
+	height: 40px;
+	width: 40px;
 }
 
 #selection-menu {

@@ -43,25 +43,27 @@ Gridspace.prototype.setWaypoint = function() {
 }
 
 function stringify(row, column) {
-	return row.toString() + "-" + column.toString();
+	return row.toString() + "_" + column.toString();
 }
 
 function parseRow(coordinate) {
-	return coordinate.split("-")[0];
+	return coordinate.split("_")[0];
 }
 
 function parseColumn(coordinate) {
-	return coordinate.split("-")[1];
+	return coordinate.split("_")[1];
 }
 
 function pxTopCoordinate(row) {
-	if (row < rows) {
-		return row * gridspaceHeight;
+	row = parseInt(row);
+	if (row >= -1 && row <= rows) {
+		return (row * gridspaceHeight) + gridspaceHeight;
 	}
 }
 
 function pxLeftCoordinate(column) {
-	if (column < columns) {
-		return column * gridspaceWidth;
+	column = parseInt(column);
+	if (column >= -1 && column <= columns) {
+		return (column * gridspaceWidth) + gridspaceWidth;
 	}
 }

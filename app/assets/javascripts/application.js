@@ -18,16 +18,16 @@
 viewHeight = 560;
 viewWidth = 800;
 
-rows = 14;
+rows = 12;
 columns = 20;
 
 gridspaceWidth = 40;
 gridspaceHeight = 40;
 
-waypointList = ["0-10", "1-10", "2-10", "3-10", 
-"4-10", "5-10", "6-10", "7-10", "8-10", "9-10", 
-"10-10", "10-9", "10-8", "10-7", "10-6", "10-5",
-"10-4", "10-3", "10-2", "10-1", "10-0"];
+waypointList = ["0_10", "1_10", "2_10", "3_10", 
+"4_10", "5_10", "6_10", "7_10", "8_10", "9_10", 
+"10_10", "10_9", "10_8", "10_7", "10_6", "10_5",
+"10_4", "10_3", "10_2", "10_1", "10_0"];
 
 // function called to start the game
 function startGame() {
@@ -37,22 +37,35 @@ function startGame() {
 //--------------------------------GAME------------------------------------------
 
 var Game = {
-	interval : 5,
+	interval : 10,
 }
 
 Game.render = function() {
 
 	// construct the grid
-	$('.viewport').css('display', 'block');
+	$('.grid').css('display', 'block');
 	var html = "";
+	html += "<div class='row'>";
+	for (var j=-1; j<columns+1; j++) {
+		html += "<div class='spawn-space' id='-1_"+j+"'></div>";
+	}
+	html += "</div>";
 	for(var i=0; i<rows; i++) {
 		html += "<div class='row'>";
+		html += "<div class='spawn-space' id='"+i+"_-1'></div>"
 		for(var j=0; j<columns; j++) {
-	  		html += "<div class='game-space' id="+i+"-"+j+" onclick=Menu.show(0)></div>";
+	  		html += "<div class='game-space' id="+i+"_"+j+" onclick=Menu.show(0)></div>";
 		}
+		html += "<div class='spawn-space' id="+i+"_"+columns+"></div>"
 		html += "</div>";
 	}
-	$('.viewport').html(html);
+	html += "<div class='row'>";
+	for (var j=-1; j<columns+1; j++) {
+		html += "<div class='spawn-space' id="+rows+"_"+j+"'></div>";
+	}
+	html += "</div>";
+	//html += "<div class='viewframe'></div>";
+	$('.grid').html(html);
 
 	for(var i=0; i<rows; i++) {
 		row = [];
@@ -82,7 +95,8 @@ Game.render = function() {
 	// run the game loop
 	Game.runLoop();
 
-	enemy = new Enemy("0-10");
+	enemy = new Enemy("-1_10");
+	enemy.setDestination(Grid.waypoints[5]);
 }
 
 Game.runLoop = function() {
@@ -95,7 +109,7 @@ Game.runLoop = function() {
 }
 
 Game.update = function() {
-	approach(enemy, Grid.waypoints[11]);
+	enemy.approachDestination();
 }
 
 //--------------------------------------------HELPERS--------------------------------
