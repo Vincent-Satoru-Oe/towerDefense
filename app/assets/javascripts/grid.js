@@ -42,6 +42,14 @@ Gridspace.prototype.setWaypoint = function() {
 	this.element.attr("onclick", null);
 }
 
+Gridspace.prototype.createTower = function(type) {
+	var newTower = Game.createTower(this.coordinateString, type);
+	this.element.append(newTower.element);
+	this.tower = newTower;
+}
+
+//---------------------------------------grid parsing helpers--------------------------
+
 function stringify(row, column) {
 	return row.toString() + "_" + column.toString();
 }

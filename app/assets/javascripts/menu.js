@@ -8,14 +8,15 @@ Menu.show = function(type) {
 	Menu.currentTargetId = event.currentTarget.id;
 }
 
-Menu.addTower = function(type) {
-
-	switch(type) {
-		case 'basic':
-			var newTower = new Tower(Menu.currentTargetId);
-	}
+Menu.createTower = function(type) {
+	Grid.getGridspaceFromCoordinateString(Menu.currentTargetId).createTower(type);
+	this.hide();
 }
 
 Menu.hide = function() {
 	Menu.element.css("display", "none");
+}
+
+Menu.construct = function() {
+	
 }

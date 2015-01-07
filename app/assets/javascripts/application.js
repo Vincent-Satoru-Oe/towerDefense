@@ -31,17 +31,21 @@ waypointList = ["0_10", "1_10", "2_10", "3_10",
 
 // function called to start the game
 function startGame() {
-  Game.render();
+	Game.render();
+	Game.initialize();
 }
 
 //--------------------------------GAME------------------------------------------
 
 var Game = {
 	interval : 10,
+	towers : [],
+	enemies : [],
+	enemiesToRemove : [],
+	bullets : []
 }
 
 Game.render = function() {
-
 	// construct the grid
 	$('.grid').css('display', 'block');
 	var html = "";
@@ -66,6 +70,11 @@ Game.render = function() {
 	html += "</div>";
 	//html += "<div class='viewframe'></div>";
 	$('.grid').html(html);
+}
+
+
+Game.initialize = function() {
+	Game.player = new Player();
 
 	for(var i=0; i<rows; i++) {
 		row = [];
@@ -96,7 +105,7 @@ Game.render = function() {
 	Game.runLoop();
 
 	enemy = new Enemy("-1_10");
-	enemy.setDestination(Grid.waypoints[5]);
+	enemy.setDestination(Grid.waypoints[0]);
 }
 
 Game.runLoop = function() {
@@ -109,7 +118,41 @@ Game.runLoop = function() {
 }
 
 Game.update = function() {
-	enemy.approachDestination();
+
+	//Movement of enemies / update visibilities to towers
+	var enemy;
+	for (var i = 0; i < Game.enemies.length; i++) {
+		enemy = Game.enemies[i];
+		enemy.approachDestination();
+		enemy.updateVisibility();
+	}
+
+	//Rotation of Towers
+
+	//Spawning of enemies
+
+	//Towers shoot enemies
+	for (var i = 0; i < Game.towers.length; i++) {
+		Game.towers[i].loadShot();
+	}
+
+	var enemyToRemove;
+	var indexToRemove;
+	for (var i = 0; i < Game.enemiesToRemove.length; i++) {
+		enemyToRemove = Game.enemiesToRemove[i];
+		indexToRemove = Game.enemies.indexOf(enemyToRemove);
+		Game.enemies.splice(indexToRemove, 1);
+	}
+	Game.enemiesToRemove = [];
+}
+
+Game.createTower = function(coordinateString, type) {
+	return new Tower(coordinateString, towerIndex[type]);
+}
+
+Game.loseGame = function() {
+	window.clearInterval(Game.gameLoop);
+	alert("you lost");
 }
 
 //--------------------------------------------HELPERS--------------------------------
@@ -129,5 +172,12 @@ function approach(source, target) {
 	unitY = ydiff / magnitude;
 
 	source.move(unitX, unitY);
+}
+
+function distance(source, target) {
+	ydiff = target.position.top - source.position.top;
+	xdiff = target.position.left - source.position.left;
+	magnitude = Math.sqrt(Math.pow(ydiff, 2) + Math.pow(xdiff, 2));
+	return magnitude;
 }
 

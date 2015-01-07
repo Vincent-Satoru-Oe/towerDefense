@@ -23,14 +23,18 @@ Entity.prototype.setDestination = function(newDestination) {
 Entity.prototype.approachDestination = function() {
 	xdiff = this.destination.position.left - this.position.left;
 	ydiff = this.destination.position.top - this.position.top;
-
 	magnitude = Math.sqrt(Math.pow(ydiff, 2) + Math.pow(xdiff, 2));
+	if (magnitude <= this.speed) {
+		this.reachedDestination();
+	} else {
+		unitX = xdiff / magnitude;
+		unitY = ydiff / magnitude;
+		x = unitX * this.speed;
+		y = unitY * this.speed;
+		this.move(x, y);
+	}
+}
 
-	unitX = xdiff / magnitude;
-	unitY = ydiff / magnitude;
-
-	x = unitX * this.speed;
-	y = unitY * this.speed;
-
-	this.move(x, y);
+Entity.prototype.reachedDestination = function() {
+	
 }

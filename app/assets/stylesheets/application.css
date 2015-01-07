@@ -49,10 +49,15 @@
     float: left;
 }
 
-.game-space img {
+.game-space .tower-image {
 	margin: 1px;
 	height: 36px;
 	width: 36px;
+}
+
+.game-space .tower-range {
+	display : none;
+	z-index : -1;
 }
 
 .game-space:hover {
@@ -89,6 +94,20 @@
 	background-color: white;
 	border: 1px black solid;
 	z-index: 2;
+}
+
+.menu .menu-selector {
+	height: 50px;
+	width: 100%;
+}
+
+.menu .menu-selector:hover {
+	background-color: lightgrey;
+}
+.menu .menu-selector .menu-thumbnail {
+	height: 42px;
+	width: 42px;
+	padding: 4px;
 }
 
 .enemy {
