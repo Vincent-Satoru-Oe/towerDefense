@@ -13,9 +13,19 @@
  *= require_tree .
  *= require_self
  */
+
+.info-bar {
+	position: relative;
+	height: 80px;
+	background-color: lightblue;
+	width: 800px;
+	margin-left: auto;
+	margin-right: auto;
+	border: 1px solid black;
+}
+
 .viewframe {
 	position: relative;
-	top: 40px;
 	height: 480px;
 	width: 800px;
 	margin-left: auto;
@@ -42,11 +52,16 @@
 
 .game-space {
 	position: relative;
-    border: 1px dotted gray;
+	padding: 1px;
     width: 38px;
     height: 38px;
     display: block;
     float: left;
+    z-index: 0;
+}
+
+.game-space .tower {
+	z-index: 1;
 }
 
 .game-space .tower-image {
@@ -55,13 +70,23 @@
 	width: 36px;
 }
 
-.game-space .tower-range {
+.game-space .range-image {
 	display : none;
 	z-index : -1;
 }
 
-.game-space:hover {
+.game-space.grid-space {
+	padding: 0px;
+	border: 1px dotted grey;
+}
+
+.game-space.grid-space:hover {
 	background-color: lightgrey;
+}
+
+.game-space.waypoint-space {
+	padding: 0px;
+	border: 1px solid red;
 }
 
 .spawn-space {
@@ -83,6 +108,7 @@
 	height: 100vh;
 	width: 100vw;
 	opacity: .5;
+	z-index: 9;
 }
 
 .menu {
@@ -93,7 +119,7 @@
 	left: 0px;
 	background-color: white;
 	border: 1px black solid;
-	z-index: 2;
+	z-index: 10;
 }
 
 .menu .menu-selector {

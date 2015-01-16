@@ -1,38 +1,23 @@
 //= require entity.js
-//= require towers/basicTower.js
 
-towerIndex = {
-	0 : basicTower
-}
-
-var Tower = function(coordinateString, data) {
+var Tower = function(coordinateString) {
 	Entity.call(this, coordinateString);
 
-	this.type = data.name;
-	this.id = data.id;
-	this.power = data.power;
-	this.range = data.range;
-	this.rangeRadius = 0;
-	this.firerate = data.firerate;
-	this.area = data.area;
-	this.towerImageSource = data.towerImage;
-	this.rangeImageSource = data.rangeImage;
+	// this.type = data.name;
+	// this.id = data.id;
+	// this.power = data.power;
+	// this.range = data.range;
+	// this.rangeRadius = 0;
+	// this.firerate = data.firerate;
+	// this.area = data.area;
+	// this.imageSource = data.towerImage;
+	// this.rangeImageSource = data.rangeImage;
+	// this.bulletData = data.bulletData;
+	// this.maxTargets = 1;
 
 	this.fireCounter = 0;
-
-	var towerImage = this.createTowerImage();
-	this.towerImage = towerImage;
-
-	var rangeImage = this.createRangeImage();
-	this.rangeImage = rangeImage
-
-	var towerElement = this.createTowerElement(towerImage, rangeImage);
-	this.element = towerElement;
-
 	this.enemiesInRange = [];
 	this.targets = [];
-
-	Game.towers.push(this);
 
 }
 
@@ -42,7 +27,7 @@ Tower.prototype.constructor = Tower;
 Tower.prototype.createTowerImage = function() {
 	var towerImage = $(document.createElement("img"));
 	towerImage.addClass("tower-image");
-	towerImage.attr("src", this.towerImageSource);
+	towerImage.attr("src", this.imageSource);
 	towerImage.css("position", "absolute");
 	return towerImage;
 }
@@ -51,10 +36,9 @@ Tower.prototype.createRangeImage = function() {
 	var rangeImage = $(document.createElement("img"));
 	var rangeHeight = (2 * this.range * gridspaceHeight) + gridspaceHeight;
 	var rangeWidth = (2 * this.range * gridspaceWidth) + gridspaceWidth;
-	this.rangeRadius = rangeHeight/2;
 	var rangeHeightOffset = (this.range * gridspaceHeight) * -1;
 	var rangeWidthOffset = (this.range * gridspaceWidth) * -1;
-	rangeImage.addClass("tower-range");
+	rangeImage.addClass("range-image");
 	rangeImage.attr("src", this.rangeImageSource);
 	rangeImage.css("position", "absolute");
 	rangeImage.css("height", pixilize(rangeHeight));
@@ -73,8 +57,8 @@ Tower.prototype.createTowerElement = function(towerImage, rangeImage) {
 	towerElement.css("height", gridspaceHeight);
 	towerElement.css("width", gridspaceWidth);
 
-	towerElement.mouseenter(function() {rangeImage.css("display", "block")});
-	towerElement.mouseleave(function() {rangeImage.css("display", "none")});
+	towerImage.mouseenter(function() {rangeImage.css("display", "block")});
+	towerImage.mouseleave(function() {rangeImage.css("display", "none")});
 	return towerElement;
 }
 
@@ -85,7 +69,9 @@ Tower.prototype.addTargetInRange = function(target) {
 
 Tower.prototype.setTarget = function() {
 	if (this.enemiesInRange.length > 0) {
-		this.targets = [this.enemiesInRange[0]];
+		if (this.targets.length < this.maxTargets) {
+			this.targets.push(this.enemiesInRange[0]);
+		}
 	}
 }
 
@@ -93,10 +79,12 @@ Tower.prototype.removeTargetInRange = function(target) {
 	var enemiesInRangeIndex = this.enemiesInRange.indexOf(target);
 	var targetsIndex = this.targets.indexOf(target);
 	if (enemiesInRangeIndex > -1) {
-		this.enemiesInRange.splice(enemiesInRangeIndex, 1);
+		var newArr = this.enemiesInRange.slice(0, enemiesInRangeIndex).concat(this.enemiesInRange.slice(enemiesInRangeIndex + 1, this.enemiesInRange.length));
+		this.enemiesInRange = newArr;
 	}
 	if (targetsIndex > -1) {
-		this.targets.splice(targetsIndex, 1);
+		var newArr = this.targets.slice(0, targetsIndex).concat(this.targets.slice(targetsIndex + 1, this.targets.length));
+		this.targets = newArr;
 		this.setTarget();
 	}
 }
@@ -115,6 +103,15 @@ Tower.prototype.shootTargets = function() {
 	var target;
 	for (var i = 0; i < this.targets.length; i++) {
 		target = this.targets[i];
-		target.takeDamage(this.power);
+		this.shootTarget(target);
 	}
 }
+
+Tower.prototype.shootTarget = function(target) {
+	var top = this.center.top - this.bulletData.size/2;
+	var left = this.center.left - this.bulletData.size/2;
+	var newBullet = new Bullet(top, left, this.bulletData, target);
+	Game.bullets.push(newBullet);
+}
+
+

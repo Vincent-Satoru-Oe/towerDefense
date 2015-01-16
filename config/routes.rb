@@ -1,12 +1,14 @@
 Rails.application.routes.draw do
   devise_for :users
-  get 'static/index'
+  get 'static/game'
+  get 'static/home'
+  get 'static/level_menu'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  root 'static#index'
+  root 'static#home'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

@@ -4,6 +4,10 @@ var Entity = function(coordinateString) {
 		top : pxTopCoordinate(parseRow(coordinateString)),
 		left : pxLeftCoordinate(parseColumn(coordinateString))
 	}
+	this.center = {
+		top : this.position.top + gridspaceHeight/2,
+		left : this.position.left + gridspaceWidth/2
+	}
 	this.destination = null;
 }
 
@@ -11,9 +15,11 @@ Entity.prototype.move = function(x, y) {
 	var newLeft = parseFloat(this.element.css("left")) + x;
 	this.element.css("left", pixilize(newLeft));
 	this.position.left += x;
+	this.center.left += x;
 	var newTop = parseFloat(this.element.css("top")) + y;
 	this.element.css("top", pixilize(newTop));
 	this.position.top += y;
+	this.center.top += y;
 }
 
 Entity.prototype.setDestination = function(newDestination) {

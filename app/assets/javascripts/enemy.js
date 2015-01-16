@@ -4,38 +4,23 @@ var Enemy = function(coordinateString) {
 
 	Entity.call(this, coordinateString);
 
-	this.speed = .5;
-	this.maxHealth = 100;
-	this.power = 1;
-
-	this.health = this.maxHealth;
-
-	var enemyImage = this.createEnemyImage();
-	this.enemyImage = enemyImage;
-	var enemyElement = this.createEnemyElement(enemyImage);
-	this.element = enemyElement;
-	$('.grid').append(enemyElement);
-
-	// this.towersTargetedBy = [];
 	this.towersInRange = [];
 	this.towersToRemove = [];
-
-	Game.enemies.push(this);
 }
 
 Enemy.prototype = Object.create(Entity.prototype);
 Enemy.prototype.constructor = Enemy;
 
 Enemy.prototype.createEnemyImage = function() {
-	var enemyImage = $(document.createElement("img"));
-	enemyImage.attr("src", "python.png");
-	return enemyImage;
+	var imageElement = $(document.createElement("img"));
+	imageElement.attr("src", this.imageSource);
+	return imageElement;
 }
 
-Enemy.prototype.createEnemyElement = function(enemyImage) {
+Enemy.prototype.createEnemyElement = function(imageElement) {
 	var enemyElement = $(document.createElement("div"));
 	enemyElement.addClass("enemy");
-	enemyElement.append(enemyImage);
+	enemyElement.append(imageElement);
 	enemyElement.css("position", "absolute");
 	enemyElement.css("height", gridspaceHeight);
 	enemyElement.css("width", gridspaceWidth);
@@ -68,7 +53,8 @@ Enemy.prototype.updateVisibility = function() {
 		towerToRemove = this.towersToRemove[i];
 		index = this.towersInRange.indexOf(towerToRemove);
 		towerToRemove.removeTargetInRange(this);
-		this.towersInRange.splice(index, 1);
+		var newArr = this.towersInRange.slice(0, index).concat(this.towersInRange.slice(index + 1, this.towersInRange.length));
+		this.towersInRange = newArr;
 	}
 	this.towersToRemove = [];
 

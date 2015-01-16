@@ -1,5 +1,11 @@
-<div class="viewframe">
-	<div class="grid"></div>
+
+<div id="info-bar" class="info-bar">
+	<div id="wave-display" class="display"></div>
+	<div id="start-wave-button" class="display-button" onclick="Game.startWave()">START WAVE</div>
+</div>
+
+<div id="viewframe" class="viewframe">
+	<div id="grid" class="grid"></div>
 </div>
 <div class="menu-modal">
 	<div class="overlay" onclick="Menu.hide()">
@@ -8,7 +14,7 @@
 		<div id="selection-menu">
 			<h1>menu</h1>
 			<div class="menu-selector" onclick="Menu.createTower(0)">
-				<img class="menu-thumbnail" src="basicTower.png">
+				<img class="menu-thumbnail" src="/basicTower.png">
 				basic tower
 			</div>
 		</div>
